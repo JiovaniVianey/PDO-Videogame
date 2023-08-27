@@ -40,20 +40,15 @@
                     <!-- TODO #1 boucler sur le tableau $videogameList contenant tous les jeux vidéos
                     (et donc supprimer ces 2 lignes d'exemple) -->
                     <!-- --- START OF YOUR CODE --- -->
+                    <?php foreach ($videogameList as $currentRow) : ?>
                     <tr>
-                        <td>-</td>
-                        <td>Exemple</td>
-                        <td>à faire</td>
-                        <td>depuis</td>
-                        <td>la DB</td>
+                        <td><?= $currentRow['id'] ?></td>
+                        <td><?= $currentRow['name'] ?></td>
+                        <td><?= $currentRow['editor'] ?></td>
+                        <td><?= $currentRow['release_date'] ?></td>
+                        <td><?= $platformList[$currentRow['platform_id']] ?></td>
                     </tr>
-                    <tr>
-                        <td>-</td>
-                        <td>Les chevaliers de Baphomet</td>
-                        <td>Virgin Interactive</td>
-                        <td>1996-09-24</td>
-                        <td>PC</td>
-                    </tr>
+                    <?php endforeach; ?>
                     <!-- --- END OF YOUR CODE --- -->
                 </tbody>
                 </table>

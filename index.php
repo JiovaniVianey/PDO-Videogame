@@ -24,7 +24,32 @@ if (!empty($_POST)) {
     // TODO #3 (optionnel) valider les données reçues (ex: donnée non vide)
     // --- START OF YOUR CODE ---
 
+    $errors = array();
 
+    if (empty($name)) {
+        $errors[] = 'Le nom est requis.';
+    }
+
+    if (empty($editor)) {
+        $errors[] = 'L\'éditeur est requis.';
+    }
+
+    if (empty($release_date)) {
+        $errors[] = 'La date est requise.';
+    }
+
+    if (empty($platform)) {
+        $errors[] = 'La plateforme est requise.';
+    }
+
+    if (count($errors) > 0) {
+        // Afficher les erreurs
+        foreach ($errors as $error) {
+            echo $error . '<br>';
+        }
+
+        exit;
+    }
 
     // --- END OF YOUR CODE ---
     
@@ -37,8 +62,14 @@ if (!empty($_POST)) {
     // TODO #3 une fois inséré, faire une redirection vers la page "index.php" (fonction header)
     // --- START OF YOUR CODE ---
 
+    $affectedRowsNumber = $pdo->exec($insertQuery);
 
+    if( $affectedRowsNumber == false )
+    {
+        exit( "Echec de la requête !" );
+    }
 
+    header("index.php");
 
     // --- END OF YOUR CODE ---
 }
@@ -59,7 +90,7 @@ $platformList = array(
 // TODO #1 écrire la requête SQL permettant de récupérer les jeux vidéos en base de données (mais ne pas l'exécuter maintenant)
 // --- START OF YOUR CODE ---
 $sql = '
-    SELECT * ...
+    SELECT * FROM videogame
 ';
 // --- END OF YOUR CODE ---
 
@@ -71,7 +102,7 @@ if (!empty($_GET['order'])) {
         // TODO #2 écrire la requête avec un tri par nom croissant
         // --- START OF YOUR CODE ---
         $sql = '
-            SELECT * ...
+            SELECT * FROM videogame ORDER BY name
         ';
         // --- END OF YOUR CODE ---
     }
@@ -79,7 +110,7 @@ if (!empty($_GET['order'])) {
         // TODO #2 écrire la requête avec un tri par editeur croissant
         // --- START OF YOUR CODE ---
         $sql = '
-            SELECT * ...
+            SELECT * FROM videogame ORDER BY editor
         ';
         // --- END OF YOUR CODE ---
     }
@@ -87,6 +118,14 @@ if (!empty($_GET['order'])) {
 // TODO #1 exécuter la requête contenue dans $sql et récupérer les valeurs dans la variable $videogameList
 // --- START OF YOUR CODE ---
 
+$statement = $pdo->query( $sql );
+
+if( $statement == false )
+{
+exit( "La requête à la BDD a échoué !" );
+}
+
+$videogameList = $statement->fetchAll();
 
 // --- END OF YOUR CODE ---
 
